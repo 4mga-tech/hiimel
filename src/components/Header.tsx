@@ -97,7 +97,7 @@ export function Header({ currentPage, onNavigate, isLoggedIn, userName, onLogout
                     <div className="w-8 h-8 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] rounded-full flex items-center justify-center">
                       <User size={16} className="text-white" />
                     </div>
-                    <span className="hidden lg:inline">{userName || 'Хэрэглэгч'}</span>
+<span className="hidden lg:inline">{userName || 'Хэрэглэгч'}</span>
                   </button>
                   
                   {showUserMenu && (

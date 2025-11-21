@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { HomePage } from './components/HomePage';
 import { SuggestPage } from './components/SuggestPage';
 import { LoginPage } from './components/LoginPage';
+import { RegisterPage } from './components/RegisterPage';
 import { DashboardPage } from './components/DashboardPage';
 import { MovieDetailPage } from './components/MovieDetailPage';
 import { movies, getMovieById } from './data/movies';
@@ -25,45 +26,56 @@ export default function App() {
   const [userReviews, setUserReviews] = useState<UserReview[]>([]);
   const [movieReviews, setMovieReviews] = useState(movies);
 
-  // Check localStorage on first load
+  // Load from localStorage
   useEffect(() => {
     const storedLogin = localStorage.getItem('isLoggedIn');
-    if (storedLogin === 'true') {
+    const storedEmail = localStorage.getItem('userEmail');
+    if (storedLogin === 'true' && storedEmail) {
       setIsLoggedIn(true);
-      setUserName('Amgalanbaatar'); // Fixed single account
+      setUserName(storedEmail);
     }
+
     const storedReviews = localStorage.getItem('userReviews');
     if (storedReviews) {
       setUserReviews(JSON.parse(storedReviews));
     }
   }, []);
 
-  // Persist login state
-  useEffect(() => {
-    localStorage.setItem('isLoggedIn', isLoggedIn ? 'true' : 'false');
-  }, [isLoggedIn]);
+  // Save login state
+ useEffect(() => {
+  if (isLoggedIn) {
+    localStorage.setItem('userEmail', userName);
+  } else {
+    localStorage.removeItem('userEmail');
+  }
+}, [isLoggedIn, userName]);
 
-  // Persist reviews
+
+  // Save reviews
   useEffect(() => {
     localStorage.setItem('userReviews', JSON.stringify(userReviews));
   }, [userReviews]);
 
-  // Login handler
-  const handleLogin = () => {
+  // Login
+  const handleLogin = (email: string) => {
     setIsLoggedIn(true);
-    setUserName('Amgalanbaatar');
+    setUserName(email);
     setCurrentPage('home');
+
+    localStorage.setItem('isLoggedIn', 'true');
+    localStorage.setItem('userEmail', email);
   };
 
-  // Logout handler
+  // Logout
   const handleLogout = () => {
     setIsLoggedIn(false);
     setUserName('');
     setCurrentPage('home');
     localStorage.removeItem('isLoggedIn');
+    localStorage.removeItem('userEmail');
   };
 
-  // Movie click handler
+  // Movie click
   const handleMovieClick = (movieId: number) => {
     setSelectedMovieId(movieId);
     setCurrentPage('movie-detail');
@@ -77,7 +89,7 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Add review handler
+  // Add review
   const handleAddReview = (movieId: number, rating: number, comment: string) => {
     const movie = getMovieById(movieId);
     if (!movie) return;
@@ -89,18 +101,18 @@ export default function App() {
       movieImage: movie.image,
       rating,
       comment,
-      date: new Date().toISOString().split('T')[0]
+      date: new Date().toISOString().split('T')[0],
     };
 
     setUserReviews([newReview, ...userReviews]);
   };
 
-  // Delete review handler
+  // Delete review
   const handleDeleteReview = (reviewId: number) => {
     setUserReviews(userReviews.filter(r => r.id !== reviewId));
   };
 
-  // Navigation handler
+  // Navigation
   const handleNavigate = (page: string) => {
     if (page === 'dashboard' && !isLoggedIn) {
       setCurrentPage('login');
@@ -110,7 +122,7 @@ export default function App() {
     setSelectedMovieId(null);
   };
 
-  // Render current page
+  // Render pages
   const renderPage = () => {
     if (currentPage === 'movie-detail' && selectedMovieId) {
       const movie = movieReviews.find(m => m.id === selectedMovieId);
@@ -129,10 +141,25 @@ export default function App() {
     switch (currentPage) {
       case 'home':
         return <HomePage onMovieClick={handleMovieClick} onNavigate={handleNavigate} />;
+
       case 'suggest':
         return <SuggestPage onMovieClick={handleMovieClick} />;
+
       case 'login':
-        return <LoginPage onLogin={handleLogin} />;
+        return (
+          <LoginPage
+            onLogin={handleLogin}
+            onSwitchToRegister={() => setCurrentPage('register')}
+          />
+        );
+
+      case 'register':
+        return (
+          <RegisterPage
+            onSwitchToLogin={() => setCurrentPage('login')}
+          />
+        );
+
       case 'dashboard':
         return isLoggedIn ? (
           <DashboardPage
@@ -141,8 +168,12 @@ export default function App() {
             onDeleteReview={handleDeleteReview}
           />
         ) : (
-          <LoginPage onLogin={handleLogin} />
+          <LoginPage
+            onLogin={handleLogin}
+            onSwitchToRegister={() => setCurrentPage('register')}
+          />
         );
+
       default:
         return <HomePage onMovieClick={handleMovieClick} onNavigate={handleNavigate} />;
     }

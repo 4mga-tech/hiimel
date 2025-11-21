@@ -142,9 +142,9 @@ export function SuggestPage({ onMovieClick }: SuggestPageProps) {
                 🤖 AI санал болгосон кинонууд
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {aiMovies.map((movie, idx) => (
+                {aiMovies.map((movie) => (
                   <div
-                    key={idx}
+                    key={movie.imdb_url}
                     className="bg-[#1A1A1A] rounded-2xl overflow-hidden border border-white/5"
                   >
                     <img

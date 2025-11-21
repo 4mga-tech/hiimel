@@ -70,6 +70,48 @@ export const movies: Movie[] = [
     ]
   },
   {
+    id: 1,
+    title: 'Хар шөнийн дайралт',
+    image: 'https://images.unsplash.com/photo-1761948245185-fc300ad20316?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxhY3Rpb24lMjBtb3ZpZSUyMHBvc3RlcnxlbnwxfHx8fDE3NjMyMjQwMzZ8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    rating: 8.5,
+    genre: ['Адал явдал', 'Аймшиг'],
+    year: 2024,
+    duration: '2ц 15м',
+    description: 'Хар шөнийн дайралт нь хүчирхэг баатрын тухай гайхалтай адал явдалт кино юм. Тэрээр өөрийн хотыг хамгаалахын тулд харанхуйтай тэмцэх ёстой.',
+    director: 'Бат-Эрдэнэ',
+    cast: ['Болд', 'Сараа', 'Дорж'],
+    imdbId: 'tt0468569', // The Dark Knight
+    reviews: [
+      {
+        id: 1,
+        userId: 1,
+        userName: 'Баярсайхан',
+        rating: 9,
+        comment: 'Гайхалтай кино! Үйл явдал маш хурдан өрнөдөг. Дүр бүтээлүүд нь сонирхолтой, харин зургийн авалт нь гайхалтай байсан.',
+        date: '2024-11-10',
+        helpful: 45
+      },
+      {
+        id: 2,
+        userId: 2,
+        userName: 'Туяа',
+        rating: 8,
+        comment: 'Сайн кино боловч эцэс нь бага зэрэг хурдан байсан. Гэхдээ үзэх нь үнэхээр таатай байлаа.',
+        date: '2024-11-12',
+        helpful: 23
+      },
+      {
+        id: 3,
+        userId: 3,
+        userName: 'Ганбат',
+        rating: 10,
+        comment: 'Би энэ киног маш их таалагдлаа. Найзууддаа санал болгосон. Дахин үзэх болно!',
+        date: '2024-11-13',
+        helpful: 67
+      }
+    ]
+  },
+  {
     id: 2,
     title: 'Мөнхийн аялал',
     image: 'https://images.unsplash.com/photo-1606603696914-a0f46d934b9c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjaW5lbWElMjBmaWxtJTIwcG9zdGVyfGVufDF8fHx8MTc2MzIwOTk4Nnww&ixlib=rb-4.1.0&q=80&w=1080',
